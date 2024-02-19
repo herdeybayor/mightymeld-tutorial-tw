@@ -61,12 +61,11 @@ export default function App() {
             Add
           </button>
         </div>
-        <nav className="pt-20 pb-3 flex justify-between">
+        <nav className="pt-8 pb-3 flex justify-between">
           <ul className="rounded flex flex-row border bg-white divide-x">
             {filterNav.map((item, i) => (
-              <li>
+              <li key={i}>
                 <button
-                  key={i}
                   className={`px-4 py-2 uppercase text-sm ${
                     filter === item ? "background-blue text-[#17a5ea] " : ""
                   }`}
@@ -77,10 +76,22 @@ export default function App() {
               </li>
             ))}
           </ul>
+          <button
+            className="bg-[#17a5ea] hover:bg-[#1182bb] rounded shadow-md py-2 px-4 uppercase text-sm"
+            onClick={clearCompleted}
+          >
+            Clear
+          </button>
         </nav>
         <ul className="flex flex-col gap-2">
           {tasks.map((task) => {
             const labelId = `checkbox-list-label-${task.id}`;
+            if (
+              (filter === "active" && task.done) ||
+              (filter === "done" && !task.done)
+            ) {
+              return null;
+            }
             return (
               <li
                 key={task.id}
